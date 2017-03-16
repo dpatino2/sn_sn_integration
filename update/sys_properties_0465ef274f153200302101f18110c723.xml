@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices/>
+        <description>The password of the sys_user record belonging to both parent and local instances used to generate records.</description>
+        <ignore_cache>false</ignore_cache>
+        <is_private>false</is_private>
+        <name>x_0290_ask_replica.integration.password</name>
+        <read_roles/>
+        <suffix>integration.password</suffix>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-03-10 23:02:04</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>0465ef274f153200302101f18110c723</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>x_0290_ask_replica.integration.password</sys_name>
+        <sys_package display_value="ASK Replicate Core" source="x_0290_ask_replica">bed3a3274f153200302101f18110c7ad</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="ASK Replicate Core">bed3a3274f153200302101f18110c7ad</sys_scope>
+        <sys_update_name>sys_properties_0465ef274f153200302101f18110c723</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-03-14 20:42:00</sys_updated_on>
+        <type>password</type>
+        <value>{{dflt-gpaes}}KVbR/tFn57/LiFndqsqJEg==</value>
+        <write_roles/>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=0465ef274f153200302101f18110c723"/>
+</record_update>

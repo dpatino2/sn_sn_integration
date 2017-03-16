@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_0290_ask_replica.ReplicateTask</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>ReplicateTask</name>
+        <script><![CDATA[var ReplicateTask = Class.create();
+ReplicateTask.prototype = {
+	initialize: function() {
+		this.url = gs.getProperty('x_0290_ask_replica.parent_url');
+		this.username = gs.getProperty('x_0290_ask_replica.integration.user');
+		this.password = gs.getProperty('x_0290_ask_replica.integration.password');
+	},
+	
+	createTask: function(gr){
+		
+		var uri = this.url + '/api/x_35114_ask_parent/parent/synctask';
+		
+		var msg = new sn_ws.RESTMessageV2();
+		msg.setEndpoint(uri);
+		msg.setHttpMethod('post');
+		msg.setBasicAuth(this.username,this.password);
+		msg.setRequestHeader('Content-Type','application/json');
+		msg.setRequestHeader("Accept","application/json");
+		msg.setRequestHeader("instance", gs.getProperty('glide.servlet.uri'));
+		msg.setQueryParameter('table', gr.sys_class_name);
+		msg.setQueryParameter('id', gr.sys_id.toString());
+		msg.setRequestBody(this._buildTaskBody(gr));
+		
+		response = msg.execute();
+		var status = response.getStatusCode();
+		gs.info('ASK createTask >> Parent response >> Code:{1}\nBody:\n{2}', 			
+				response.getStatusCode(), response.getBody());
+	},
+	
+	_buildTaskBody: function(gr){
+		
+		var body = {};
+		var grSynced = new GlideRecord("x_0290_ask_replica_synced_field");
+		grSynced.addQuery("table", gr.sys_class_name);
+		grSynced.query();
+		
+		while (grSynced.next()) {
+			var fld = grSynced.getValue('field');
+			body[fld] = gr.getValue(fld) || '';
+		}
+		
+		var jsonReturn = new global.JSON().encode(body);
+		gs.info('ASK _buildTaskBody >> Log JSON message before send >> \nBody:\n' + jsonReturn);
+		return jsonReturn;
+		
+	},
+	
+	createTask_tableAPI: function(gr){
+		
+		var uri = this.url + '/api/now/v2/table/' + gr.sys_class_name;
+		
+		var msg = new sn_ws.RESTMessageV2();
+		msg.setEndpoint(uri);
+		msg.setBasicAuth(this.username,this.password);
+		msg.setRequestHeader('Content-Type','application/json');
+		msg.setRequestHeader("Accept","application/json");
+		msg.setHttpMethod('post');
+		msg.setQueryParameter('table', gr.sys_class_name);
+		msg.setRequestBody(this._buildTaskBody(gr));
+		
+		response = msg.execute();
+		var status = response.getStatusCode();
+		gs.info('ASK createTask >> Parent response >> Code:{1}\nBody:\n{2}', 			
+				response.getStatusCode(), response.getBody());
+	},
+	
+	type: 'ReplicateTask'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-03-10 22:56:38</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>26f3e32f4fd13200302101f18110c78d</sys_id>
+        <sys_mod_count>30</sys_mod_count>
+        <sys_name>ReplicateTask</sys_name>
+        <sys_package display_value="ASK Replicate Core" source="x_0290_ask_replica">bed3a3274f153200302101f18110c7ad</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="ASK Replicate Core">bed3a3274f153200302101f18110c7ad</sys_scope>
+        <sys_update_name>sys_script_include_26f3e32f4fd13200302101f18110c78d</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-03-15 22:12:46</sys_updated_on>
+    </sys_script_include>
+</record_update>
